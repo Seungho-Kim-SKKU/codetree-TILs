@@ -47,12 +47,6 @@ void addNode(unordered_map<int, Node> &tree, int mid, int pid, int color, int ma
 }
 
 void changeColor(unordered_map<int, Node> &tree, int mid, int color) {
-    // if (tree[mid].lid != 0) {
-    //     changeColor(tree, tree[mid].lid, color);
-    // }
-    // if (tree[mid].rid != 0) {
-    //     changeColor(tree, tree[mid].rid, color);
-    // }
     for (auto& it: tree[mid].child) {
         changeColor(tree, it, color);
     }
@@ -83,13 +77,6 @@ void calculate(unordered_map<int, Node> &tree, int mid) {
     if (checkColorSet()) {
         return;
     }
-
-    // if (tree[mid].lid != 0) {
-    //     calculate(tree, tree[mid].lid);
-    // }
-    // if (tree[mid].rid != 0) {
-    //     calculate(tree, tree[mid].rid);
-    // }
 
     for (auto& it: tree[mid].child) {
         calculate(tree, it);
