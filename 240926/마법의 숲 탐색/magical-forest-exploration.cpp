@@ -222,6 +222,7 @@ pair<int, int> moveGol(pair<int, int> center) {
 }
 
 void calculate(pair<int, int> center) {
+    // cout << center.first << center.second << endl;
     mazeTrav[center.first][center.second] = 1;
     if (center.first-2 > curMax) {
         curMax = center.first-2;
@@ -250,23 +251,19 @@ void calculate(pair<int, int> center) {
     }
     else if (maze[center.first][center.second] == EXIT) {
         //down
-        if (mazeTrav[center.first+1][center.second] == 0 && 
-        (maze[center.first+1][center.second] == OCC || maze[center.first+1][center.second] == EXIT)) {
+        if (mazeTrav[center.first+1][center.second] == 0 && maze[center.first+1][center.second] != 1 ) {
             calculate(make_pair(center.first+1, center.second));
         }
         //left
-        if (mazeTrav[center.first][center.second-1] == 0 && 
-        (maze[center.first][center.second-1] == OCC || maze[center.first][center.second-1] == EXIT)) {
+        if (mazeTrav[center.first][center.second-1] == 0 && maze[center.first][center.second-1] != 1) {
             calculate(make_pair(center.first, center.second-1));
         }
         //right
-        if (mazeTrav[center.first][center.second+1] == 0 && 
-        (maze[center.first][center.second+1] == OCC || maze[center.first][center.second+1] == EXIT)) {
+        if (mazeTrav[center.first][center.second+1] == 0 && maze[center.first][center.second+1] != 1) {
             calculate(make_pair(center.first, center.second+1));
         }
         //up
-        if (mazeTrav[center.first-1][center.second] == 0 &&
-        (maze[center.first-1][center.second] == OCC || maze[center.first-1][center.second] == EXIT)) {
+        if (mazeTrav[center.first-1][center.second] == 0 && maze[center.first-1][center.second] != 1) {
             calculate(make_pair(center.first-1, center.second));
         }
     }
