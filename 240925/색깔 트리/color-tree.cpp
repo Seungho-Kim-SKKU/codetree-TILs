@@ -2,18 +2,18 @@
 #include <unordered_map>
 using namespace std;
 
-short root;
-short colorSet[6] = { 0, };
+int root;
+int colorSet[6] = { 0, };
 
 typedef struct treeNode {
-    short pid;
-    short color;
-    short max;
-    short lid;
-    short rid;
+    int pid;
+    int color;
+    int max;
+    int lid;
+    int rid;
 } Node;
 
-void addNode(unordered_map<short, Node> &tree, short mid, short pid, short color, short max) {
+void addNode(unordered_map<int, Node> &tree, int mid, int pid, int color, int max) {
     if (pid == -1) {
         root = mid;
 
@@ -22,8 +22,8 @@ void addNode(unordered_map<short, Node> &tree, short mid, short pid, short color
         tree[mid] = n;
     }
     else {
-        short depth = 1;
-        short parent = pid;
+        int depth = 1;
+        int parent = pid;
 
         while (parent != -1) {
             depth++;
@@ -53,7 +53,7 @@ void addNode(unordered_map<short, Node> &tree, short mid, short pid, short color
     return;
 }
 
-void changeColor(unordered_map<short, Node> &tree, short mid, short color) {
+void changeColor(unordered_map<int, Node> &tree, int mid, int color) {
     if (tree[mid].lid != 0) {
         changeColor(tree, tree[mid].lid, color);
     }
@@ -67,7 +67,7 @@ void changeColor(unordered_map<short, Node> &tree, short mid, short color) {
 }
 
 bool checkColorSet() {
-    short check = 0;
+    int check = 0;
 
     for (int i = 1; i < 6; i++) {
         if (colorSet[i] == 1) {
@@ -83,7 +83,7 @@ bool checkColorSet() {
     }
 }
 
-void calculate(unordered_map<short, Node> &tree, short mid) {
+void calculate(unordered_map<int, Node> &tree, int mid) {
     if (checkColorSet()) {
         return;
     }
@@ -100,11 +100,11 @@ void calculate(unordered_map<short, Node> &tree, short mid) {
     return;
 }
 
-short calcScore(unordered_map<short, Node> &tree) {
-    short score = 0;
+int calcScore(unordered_map<int, Node> &tree) {
+    int score = 0;
 
     for (auto& it: tree) {
-        short num = 0;
+        int num = 0;
 
         calculate(tree, it.first);
 
@@ -121,15 +121,15 @@ short calcScore(unordered_map<short, Node> &tree) {
 }
 
 int main() {
-    short numOp;
-    short op;
-    short mid;
-    short pid;
-    short color;
-    short max;
-    short score;
+    int numOp;
+    int op;
+    int mid;
+    int pid;
+    int color;
+    int max;
+    int score;
 
-    unordered_map<short, Node> tree;
+    unordered_map<int, Node> tree;
 
     cin >> numOp;
 
