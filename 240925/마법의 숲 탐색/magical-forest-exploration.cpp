@@ -245,21 +245,25 @@ void calculate(pair<int, int> center) {
             calculate(make_pair(center.first-1, center.second));
         }
     }
-    else if (maze[center.first][center.second] == EXIT){
+    else if (maze[center.first][center.second] == EXIT) {
         //down
-        if (mazeTrav[center.first+1][center.second] == 0 && maze[center.first+1][center.second] == OCC) {
+        if (mazeTrav[center.first+1][center.second] == 0 && 
+        (maze[center.first+1][center.second] == OCC || maze[center.first+1][center.second] == EXIT)) {
             calculate(make_pair(center.first+1, center.second));
         }
         //left
-        if (mazeTrav[center.first][center.second-1] == 0 && maze[center.first][center.second-1] == OCC) {
+        if (mazeTrav[center.first][center.second-1] == 0 && 
+        (maze[center.first][center.second-1] == OCC || maze[center.first][center.second-1] == EXIT)) {
             calculate(make_pair(center.first, center.second-1));
         }
         //right
-        if (mazeTrav[center.first][center.second+1] == 0 && maze[center.first][center.second+1] == OCC) {
+        if (mazeTrav[center.first][center.second+1] == 0 && 
+        (maze[center.first][center.second+1] == OCC || maze[center.first][center.second+1] == EXIT)) {
             calculate(make_pair(center.first, center.second+1));
         }
         //up
-        if (mazeTrav[center.first-1][center.second] == 0 && maze[center.first-1][center.second] == OCC) {
+        if (mazeTrav[center.first-1][center.second] == 0 &&
+        (maze[center.first-1][center.second] == OCC || maze[center.first-1][center.second] == EXIT)) {
             calculate(make_pair(center.first-1, center.second));
         }
     }
@@ -301,12 +305,19 @@ int main() {
     for (int i = 0; i < numGol; i++) {
         cin >> mid >> exit;
 
-        // cout << i << endl;
+        // cout << i << mid << endl;
         
         setGol(mid, exit);
+
         // printMaze(row, col);
+
         center = make_pair(1, mid);
         center = moveGol(center);
+
+        // cout << endl;
+        // printMaze(row, col);
+        // cout << endl;
+
         if (checkMaze()) {
             initMaze(row, col);
             continue;
@@ -314,11 +325,10 @@ int main() {
         curMax = 0;
         initMazeTrav(row, col);
         calculate(center);
-        sumRow += curMax;
 
-        // cout << endl;
-        // printMaze(row, col);
-        // cout << endl;
+        // cout << curMax << endl << endl;
+
+        sumRow += curMax;
     }
 
     cout << sumRow << endl;
