@@ -4,7 +4,7 @@
 using namespace std;
 
 #define endl '\n'
-#define MAX 75
+#define MAX 80
 #define WALL 9
 #define CENTER 5
 #define EXIT 4
@@ -15,7 +15,7 @@ short mazeTrav[MAX][MAX];
 int curMax = 0;
 
 void printMaze(int row, int col) {
-    for (int r = 0; r < row+2; r++) {
+    for (int r = 0; r < row+4; r++) {
         for (int c = 0; c < col+2; c++) {
             cout << maze[r][c] << " ";            
         }
@@ -24,9 +24,9 @@ void printMaze(int row, int col) {
 }
 
 void initMaze(int row, int col) {
-    for (int r = 0; r < row+2; r++) {
+    for (int r = 0; r < row+4; r++) {
         for (int c = 0; c < col+2; c++) {
-            if (c == 0 || r == row + 1 || c == col + 1) {
+            if (c == 0 || r == row + 3 || c == col + 1) {
                 maze[r][c] = WALL;
             }
             else {
@@ -39,9 +39,9 @@ void initMaze(int row, int col) {
 }
 
 void initMazeTrav(int row, int col) {
-    for (int r = 0; r < row+2; r++) {
+    for (int r = 0; r < row+4; r++) {
         for (int c = 0; c < col+2; c++) {
-            if (c == 0 || r == row + 1 || c == col + 1) {
+            if (c == 0 || r == row + 3 || c == col + 1) {
                 mazeTrav[r][c] = WALL;
             }
             else {
@@ -54,12 +54,15 @@ void initMazeTrav(int row, int col) {
 }
 
 bool checkMaze() {
-    int c = 1;
-    while (maze[0][c] != WALL) {
-        if (maze[0][c] != 1) {
-            return true;
+    int c;
+    for (int r = 0; r < 3; r++) {
+        c = 1;
+        while (maze[r][c] != WALL) {
+            if (maze[r][c] != 1) {
+                return true;
+            }
+            c++;
         }
-        c++;
     }
     return false;
 }
@@ -220,8 +223,8 @@ pair<int, int> moveGol(pair<int, int> center) {
 
 void calculate(pair<int, int> center) {
     mazeTrav[center.first][center.second] = 1;
-    if (center.first > curMax) {
-        curMax = center.first;
+    if (center.first-2 > curMax) {
+        curMax = center.first-2;
     }    
     if (maze[curMax + 1][1] == WALL) {
         return;
