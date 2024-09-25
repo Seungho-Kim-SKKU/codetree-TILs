@@ -1,5 +1,7 @@
 #include <iostream>
 #include <unordered_map>
+#include <vector>
+
 using namespace std;
 
 int root;
@@ -9,15 +11,14 @@ typedef struct treeNode {
     int pid;
     int color;
     int max;
-    int lid;
-    int rid;
+    vector<int> child;
 } Node;
 
 void addNode(unordered_map<int, Node> &tree, int mid, int pid, int color, int max) {
     if (pid == -1) {
         root = mid;
 
-        Node n = {pid, color, max, 0, 0};
+        Node n = {pid, color, max};
         
         tree[mid] = n;
     }
@@ -34,18 +35,10 @@ void addNode(unordered_map<int, Node> &tree, int mid, int pid, int color, int ma
 
             parent = tree[parent].pid;
         }
+        
+        tree[pid].child.push_back(mid);
 
-        if (tree[pid].lid == 0) {
-            tree[pid].lid = mid;
-        }
-        else if (tree[pid].rid == 0) {
-            tree[pid].rid = mid;
-        }
-        else {
-            return;
-        }
-
-        Node n = {pid, color, max, 0, 0};
+        Node n = {pid, color, max};
         
         tree[mid] = n;
     }
@@ -54,11 +47,14 @@ void addNode(unordered_map<int, Node> &tree, int mid, int pid, int color, int ma
 }
 
 void changeColor(unordered_map<int, Node> &tree, int mid, int color) {
-    if (tree[mid].lid != 0) {
-        changeColor(tree, tree[mid].lid, color);
-    }
-    if (tree[mid].rid != 0) {
-        changeColor(tree, tree[mid].rid, color);
+    // if (tree[mid].lid != 0) {
+    //     changeColor(tree, tree[mid].lid, color);
+    // }
+    // if (tree[mid].rid != 0) {
+    //     changeColor(tree, tree[mid].rid, color);
+    // }
+    for (auto& it: tree[mid].child) {
+        changeColor(tree, it, color);
     }
 
     tree[mid].color = color;
@@ -88,11 +84,15 @@ void calculate(unordered_map<int, Node> &tree, int mid) {
         return;
     }
 
-    if (tree[mid].lid != 0) {
-        calculate(tree, tree[mid].lid);
-    }
-    if (tree[mid].rid != 0) {
-        calculate(tree, tree[mid].rid);
+    // if (tree[mid].lid != 0) {
+    //     calculate(tree, tree[mid].lid);
+    // }
+    // if (tree[mid].rid != 0) {
+    //     calculate(tree, tree[mid].rid);
+    // }
+
+    for (auto& it: tree[mid].child) {
+        calculate(tree, it);
     }
 
     colorSet[tree[mid].color] = 1;
