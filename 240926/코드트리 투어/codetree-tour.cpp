@@ -169,7 +169,7 @@ int main() {
 
             for (auto& it: list) {
                 it.second.dist = graph[it.second.dest].fromStart;
-                cout << it.first << " " << it.second.dist << endl;
+                // cout << it.first << " " << it.second.dist << endl;
             }
         }
         else {
