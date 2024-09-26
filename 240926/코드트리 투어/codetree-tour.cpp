@@ -83,18 +83,25 @@ void calculateDist(int start) {
             }            
         }
     }
+    // cout << endl;
     // for (int i = 0; i < n; i++) {
     //     cout << graph[i].fromStart << endl;
     // }
+    // cout << endl;
 }
 
 void calculateMax() {
     for (auto& it: list) {
         // cout << it.first << " " << it.second.rev << " " << it.second.dist << endl;
         int cur = it.second.rev - it.second.dist;
-        if (cur >= curMax) {
+        if (cur > curMax) {
             curId = it.first;
             curMax = cur;
+        }
+        else if (cur == curMax) {
+            if (it.first < curId) {
+                curId = it.first;
+            }
         }
     }
 }
@@ -113,6 +120,8 @@ int main() {
                 cin >> v >> u >> w;
                 graph[v].to.push_back(u);
                 graph[v].weight.push_back(w);
+                graph[u].to.push_back(v);
+                graph[u].weight.push_back(w);
                 graph[v].fromStart = MAX;
             }
             calculateDist(start);
@@ -126,10 +135,11 @@ int main() {
         }
         else if (op == 300) {
             cin >> id;
-
-            list.erase(id);
-            curId = -1;
-            curMax = -1;
+            if (list.find(id) != list.end()) {
+                list.erase(id);
+                curId = -1;
+                curMax = -1;                
+            }
         }        
         else if (op == 400) {           
             calculateMax();
@@ -153,6 +163,7 @@ int main() {
 
             for (auto& it: list) {
                 it.second.dist = graph[it.second.dest].fromStart;
+                // cout << it.first << " " << it.second.dist << endl;
             }
         }
         else {
