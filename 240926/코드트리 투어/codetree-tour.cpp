@@ -37,6 +37,7 @@ unordered_map<int, Product> list;
 void initGraph(int n) {
     for (int i = 0; i < n; i++) {
         graph.push_back({i});
+        graph[i].fromStart = MAX;
     }
     return;
 }
@@ -54,16 +55,22 @@ void calculateDist(int start) {
 
     graph[start].fromStart = 0;
 
+    int cur;
+    int to;
     int curSize = graph[start].to.size();
 
     for (int i = 0; i < curSize; i++) {
         visit[start] = 1;
-        q.push(graph[start].to[i]);
-        graph[graph[start].to[i]].fromStart = graph[start].fromStart + graph[start].weight[i];
+        to = graph[start].to[i];
+        if (!visit[to]) {
+            q.push(to);
+            visit[to] = 1;
+        }
+        w = graph[start].fromStart + graph[start].weight[i];
+        if (w < graph[to].fromStart) {
+            graph[to].fromStart = w;
+        }         
     }
-
-    int cur;
-    int to;
 
     while (!q.empty()) {
         cur = q.front();
@@ -122,7 +129,6 @@ int main() {
                 graph[v].weight.push_back(w);
                 graph[u].to.push_back(v);
                 graph[u].weight.push_back(w);
-                graph[v].fromStart = MAX;
             }
             calculateDist(start);
         }
@@ -163,7 +169,7 @@ int main() {
 
             for (auto& it: list) {
                 it.second.dist = graph[it.second.dest].fromStart;
-                // cout << it.first << " " << it.second.dist << endl;
+                cout << it.first << " " << it.second.dist << endl;
             }
         }
         else {
