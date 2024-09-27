@@ -49,13 +49,13 @@ void printMap() {
     cout << endl;
 }
 
-void eat(int time, string name) {
+bool eat(int time, string name) {
     int timeH = H[name].time;
     int locH = H[name].loc;
     for (auto& it: S[name]) {
         // cout << name << endl;
         if (H[name].num == 0) {
-            return;
+            return true;
         }
         if (it.eat) {
             continue;
@@ -80,14 +80,22 @@ void eat(int time, string name) {
         }
         if (H[name].num == 0) {
             curH--;
-            return;
+            return true;
         }
     }
+    return false;
 }
 
 void eatSushi(int time) {
-    for (auto& it: H) {
-        eat(time, it.first);
+    for (auto it = H.begin(); it != H.end();) {
+        bool flag = eat(time, it->first);
+
+        if (flag == true) {
+            it = H.erase(it);
+        }
+        else {
+            it++;
+        }
     }
 }
 
