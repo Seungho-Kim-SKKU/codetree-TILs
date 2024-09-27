@@ -144,9 +144,7 @@ int main() {
         else if (op == 300) {
             cin >> id;
             if (list.find(id) != list.end()) {
-                list.erase(id);
-                curId = -1;
-                curMax = -1;                
+                list.erase(id);            
             }
         }        
         else if (op == 400) {           
@@ -154,13 +152,11 @@ int main() {
 
             if (curMax != -1) {
                 list.erase(curId);
-                cout << curId << endl;
-                curId = -1;
-                curMax = -1;
             }
-            else {
-                cout << curId << endl;
-            }
+            
+            cout << curId << endl;
+            curId = -1;
+            curMax = -1;
             // cout << 123 << endl;
         }
         else if (op == 500) {
