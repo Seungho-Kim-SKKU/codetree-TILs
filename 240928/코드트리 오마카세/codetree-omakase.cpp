@@ -77,17 +77,16 @@ int main() {
         // cout << itH.first << endl;
 
         for (auto& itS: S[itH.first]) {
-            int timeH = itH.second.time; 
-            int locH = itH.second.loc; 
-            int timeS = itS.time; 
-            int locS = itS.loc;
             int diffTime = 0;
             int diffLoc = 0;
             int eatTime = 0;
+
+            int timeH = itH.second.time; // 4
+            int locH = itH.second.loc; // 1
+            int timeS = itS.time;  // 6
+            int locS = itS.loc; // 4
+
             if (timeH < timeS) {
-                diffTime = timeS - timeH;
-                timeS += diffTime;
-                locS = (locS + diffTime) % L;
                 diffLoc = (locH - locS) % L;
                 eatTime = timeS + diffLoc;
             }
