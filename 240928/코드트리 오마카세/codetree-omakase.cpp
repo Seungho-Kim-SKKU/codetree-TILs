@@ -6,6 +6,8 @@
 
 using namespace std;
 
+#define endl "\n"
+
 struct Query {
     int cmd;
     int t;
@@ -32,32 +34,11 @@ unordered_map<string, Human> H;
 int curS = 0;
 int curH = 0;
 
-void printMap() {
-    cout << "Sushi" << endl;
-    for (auto& it_1: S) {
-        cout << it_1.first << ": ";
-        for (auto& it_2: it_1.second) {
-            cout << it_2.time << " " << it_2.loc << ", ";
-        }
-        cout << endl;
-    }
-    cout << endl << "Human" << endl;
-    for (auto& it: H) {
-        if (it.second.num != 0) {
-            cout << it.first << " " << it.second.time << " " << it.second.loc << " " << it.second.num << endl;
-        }
-        
-    }
-    cout << endl;
-}
-
 bool cmp(Query q1, Query q2) {
     if (q1.t != q2.t) {
         return q1.t < q2.t;
     }
-    else {
-        return q1.cmd < q2.cmd;
-    }
+    return q1.cmd < q2.cmd;    
 }
 
 int main() {
