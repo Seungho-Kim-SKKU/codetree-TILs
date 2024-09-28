@@ -77,18 +77,23 @@ int main() {
         // cout << itH.first << endl;
 
         for (auto& itS: S[itH.first]) {
-            int timeH = itH.second.time;
-            int locH = itH.second.loc;
-            int timeS = itS.time;
+            int timeH = itH.second.time; 
+            int locH = itH.second.loc; 
+            int timeS = itS.time; 
             int locS = itS.loc;
+            int diffLoc = 0;
             // cout << time << " " << timeH <<endl;
             // cout << timeS << endl;
-            int diffLoc = (locH - locS) % L; 
-            locS = (locS + diffLoc) % L;
-            timeS += diffLoc;
-            while (timeS < timeH) {
-                timeS += L;
+            if (timeH < timeS) {
+                diffLoc = (locH - locS) % L
             }
+            else {
+                int nowLocS = timeH - timeS;
+                locH += (locH + nowLocS) % L;
+                diffLoc = (locH - locS) % L;                
+            }
+            timeS += diffLoc;
+
             queries.push_back({101, timeS, -1, -1, itH.first});
             // cout << timeS << endl;
             exitTime = max(exitTime, timeS);
