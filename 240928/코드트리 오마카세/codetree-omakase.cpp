@@ -85,7 +85,7 @@ int main() {
             // cout << time << " " << timeH <<endl;
             // cout << timeS << endl;
             if (timeH < timeS) {
-                diffLoc = (locH - locS) % L
+                diffLoc = (locH - locS) % L;
             }
             else {
                 int nowLocS = timeH - timeS;
