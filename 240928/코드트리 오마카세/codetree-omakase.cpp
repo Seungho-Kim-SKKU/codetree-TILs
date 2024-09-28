@@ -81,24 +81,29 @@ int main() {
             int locH = itH.second.loc; 
             int timeS = itS.time; 
             int locS = itS.loc;
+            int diffTime = 0;
             int diffLoc = 0;
-            // cout << time << " " << timeH <<endl;
-            // cout << timeS << endl;
+            int eatTime = 0;
             if (timeH < timeS) {
+                diffTime = timeS - timeH;
+                timeS += diffTime;
+                locS = (locS + diffTime) % L;
                 diffLoc = (locH - locS) % L;
+                eatTime = timeS + diffLoc;
             }
             else {
-                int nowLocS = timeH - timeS;
-                locH += (locH + nowLocS) % L;
-                diffLoc = (locH - locS) % L;                
+                diffLoc = (locH - locS) % L;
+                timeS += diffLoc;
+                while (timeS < timeH) {
+                    timeS += L;
+                }
+                eatTime = timeS;
             }
-            timeS += diffLoc;
 
-            queries.push_back({101, timeS, -1, -1, itH.first});
-            // cout << timeS << endl;
-            exitTime = max(exitTime, timeS);
+            queries.push_back({101, eatTime, -1, -1, itH.first});
+
+            exitTime = max(exitTime, eatTime);
         }
-        // cout << "EXIT " << exitTime << endl;
         queries.push_back({201, exitTime, -1, -1, itH.first});
     }
 
