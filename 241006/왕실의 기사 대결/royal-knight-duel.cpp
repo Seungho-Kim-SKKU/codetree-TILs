@@ -153,7 +153,7 @@ void moveUp(int i) {
 
     for (int j = Knights[i].r; j < Knights[i].r + Knights[i].h + 1; j++) {
         for (int k = Knights[i].c; k < Knights[i].c + Knights[i].w; k++) {
-            if (k == Knights[i].r + Knights[i].h) {
+            if (j == Knights[i].r + Knights[i].h) {
                 knight[j][k] = 0;
             }
             else {
@@ -233,7 +233,7 @@ void moveDown(int i) {
 
     for (int j = Knights[i].r - 1; j < Knights[i].r + Knights[i].h; j++) {
         for (int k = Knights[i].c; k < Knights[i].c + Knights[i].w; k++) {
-            if (k == Knights[i].r - 1) {
+            if (j == Knights[i].r - 1) {
                 knight[j][k] = 0;
             }
             else {
@@ -360,6 +360,7 @@ int main() {
     for (int q = 0; q < Q; q++) {
         int i, d;
         cin >> i >> d;
+        // cout << q << " " << i << " " << d << endl;
         moveKnight(i, d);
         // printKnight();
     }
