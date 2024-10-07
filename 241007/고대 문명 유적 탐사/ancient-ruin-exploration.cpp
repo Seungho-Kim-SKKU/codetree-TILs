@@ -191,6 +191,7 @@ int main() {
     }
 
     for (int k = 0; k < K; k++) {
+        sumScore = 0;
         int bestScore = 0;
         for (int l = 0; l < 3; l++) {
             for (int i = 2; i < 5; i++) {
@@ -246,7 +247,8 @@ int main() {
 
             copy(&curUmul[0][0], &curUmul[0][0] + 49, &bestUmul[0][0]);
         }
+        cout << sumScore << " ";
     }
 
-    cout << sumScore << endl;
+    return 0;
 }
