@@ -38,6 +38,8 @@ void initVisit() {
         for (int j = 1; j <= M; j++) {
             visit[i][j] = false;
             trace[i][j] = false;
+            traceR[i][j] = 0;
+            traceC[i][j] = 0;
         }
     }
 
@@ -69,16 +71,18 @@ bool findRoute() {
             int nx = curC + dx[i];
 
             if (ny == N + 1) ny = 1;
-            else if (ny == 0) ny = N;
+            if (ny == 0) ny = N;
             if (nx == M + 1) nx = 1;
-            else if (nx == 0) nx = M;
+            if (nx == 0) nx = M;
 
-            if (map[ny][nx] != 0 && !visit[ny][nx]) {
-                q.push(make_pair(ny, nx));
-                traceR[ny][nx] = curR;
-                traceC[ny][nx] = curC;
-                visit[ny][nx] = true;
-            }
+            if (visit[ny][nx]) continue;
+            if (map[ny][nx] == 0) continue;
+
+            q.push(make_pair(ny, nx));
+            traceR[ny][nx] = curR;
+            traceC[ny][nx] = curC;
+            visit[ny][nx] = true;
+            
         }
     }
 
@@ -125,9 +129,9 @@ void attack() {
             if (ny == Ra && nx == Ca) continue;
 
             if (ny == N + 1) ny = 1;
-            else if (ny == 0) ny = N;
+            if (ny == 0) ny = N;
             if (nx == M + 1) nx = 1;
-            else if (nx == 0) nx = M;
+            if (nx == 0) nx = M;
 
             map[ny][nx] -= Da / 2;
             if (map[ny][nx] < 0) map[ny][nx] = 0;
@@ -143,10 +147,7 @@ int main() {
 
     for (int i = 1; i <= N; i++) {
         for (int j = 1; j <= M; j++) {
-            int n;
-            cin >> n;
-
-            map[i][j] = n;
+            cin >> map[i][j];
         }
     }
 
@@ -166,12 +167,16 @@ int main() {
                     Ca = j;
                     Da = map[i][j];
                 }
-                if (map[i][j] == Da) {
+                else if (map[i][j] == Da) {
+                    // cout << i << " " << j << " " << Ra << " " << Ca << endl << endl;
+                    // printMap(map);
+                    // printMap(record);
                     if (record[i][j] > record[Ra][Ca]) {
                         Ra = i;
                         Ca = j;
                         Da = map[i][j];
                     }
+                    // cout << Ra << " " << Ca << endl << endl;
                 }
             }
         }
@@ -185,7 +190,7 @@ int main() {
                     Cv = j;
                     Dv = map[i][j];
                 }
-                if (map[i][j] == Dv) {
+                else if (map[i][j] == Dv) {
                     if (record[i][j] < record[Rv][Cv]) {
                         Rv = i;
                         Cv = j;
@@ -195,14 +200,14 @@ int main() {
             }
         }
 
-        // cout << Ra << " " << Ca << " " << Rv << " " << Cv << endl;
+        // cout << endl << Ra << " " << Ca << " " << Rv << " " << Cv << endl;
 
         if (Rv == -1 && Cv == -1) {
             break;
         }
 
         Da += N + M;
-        map[Ra][Ca] = Da;
+        map[Ra][Ca] += N + M;
         record[Ra][Ca] = k;
 
         // cout << Ra << " " << Ca << " " << Rv << " " << Cv << endl << endl;
