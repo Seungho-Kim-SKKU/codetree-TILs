@@ -154,7 +154,7 @@ int main() {
         // cout << k << k << k << k << endl << endl;
 
         Ra = -1, Ca = -1;
-        Da = 5001;
+        Da = 10000000;
         Rv = -1, Cv = -1;
         Dv = 0;
 
