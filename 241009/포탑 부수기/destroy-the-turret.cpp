@@ -124,14 +124,15 @@ void attack() {
 
         for (int i = 0; i < 8; i++) {
             int ny = Rv + dy[i];
-            int nx = Cv + dx[i];
-
-            if (ny == Ra && nx == Ca) continue;
+            int nx = Cv + dx[i];                
 
             if (ny == N + 1) ny = 1;
             if (ny == 0) ny = N;
             if (nx == M + 1) nx = 1;
             if (nx == 0) nx = M;
+            
+            if (ny == Ra && nx == Ca) continue;
+            
 
             map[ny][nx] -= Da / 2;
             if (map[ny][nx] < 0) map[ny][nx] = 0;
