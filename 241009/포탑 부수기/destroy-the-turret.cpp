@@ -171,10 +171,19 @@ int main() {
                     if (record[i][j] > record[Ra][Ca]) {
                         Ra = i;
                         Ca = j;
+
                     }
-                    else if (Ra + Ca < i + j) {
-                        Ra = i;
-                        Ca = j;                        
+                    else if (record[i][j] == record[Ra][Ca]) {
+                        if (Ra + Ca < i + j) {
+                            Ra = i;
+                            Ca = j;
+                        }
+                        else if (Ra + Ca == i + j) {
+                            if (Ca < j) {
+                                Ra = i;
+                                Ca = j;
+                            }
+                        }
                     }
                 }
             }
@@ -193,8 +202,21 @@ int main() {
                     if (record[i][j] < record[Rv][Cv]) {
                         Rv = i;
                         Cv = j;
-                        Dv = map[i][j];
+                        continue;
                     }
+                    else if (record[i][j] == record[Rv][Cv]) {
+                        if (Rv + Cv > i + j) {
+                            Rv = i;
+                            Cv = j;
+                        }
+                        else if (Rv + Cv == i + j) {
+                            if (Cv > j) {
+                                Rv = i;
+                                Cv = j;
+                            }
+                        }
+                    }
+                    
                 }
             }
         }
