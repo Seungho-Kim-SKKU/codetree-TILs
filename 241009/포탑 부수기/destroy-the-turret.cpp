@@ -29,6 +29,8 @@ void printMap(int a[][12]) {
         cout << endl;
     }
     cout << endl;
+
+    return;
 }
 
 void initVisit() {
@@ -38,6 +40,8 @@ void initVisit() {
             trace[i][j] = false;
         }
     }
+
+    return;
 }
 
 bool findRoute() {
@@ -189,6 +193,12 @@ int main() {
                     }
                 }
             }
+        }
+
+        // cout << Ra << " " << Ca << " " << Rv << " " << Cv << endl;
+
+        if (Rv == -1 && Cv == -1) {
+            break;
         }
 
         Da += N + M;
