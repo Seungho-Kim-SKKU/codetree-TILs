@@ -152,7 +152,7 @@ int main() {
     }
 
     for (int k = 1; k <= K; k++) {
-        // cout << k << k << k << k << endl << endl;
+        // cout << endl << k << k << k << k << endl << endl;
 
         Ra = -1, Ca = -1;
         Da = 10000000;
@@ -168,15 +168,14 @@ int main() {
                     Da = map[i][j];
                 }
                 else if (map[i][j] == Da) {
-                    // cout << i << " " << j << " " << Ra << " " << Ca << endl << endl;
-                    // printMap(map);
-                    // printMap(record);
                     if (record[i][j] > record[Ra][Ca]) {
                         Ra = i;
                         Ca = j;
-                        Da = map[i][j];
                     }
-                    // cout << Ra << " " << Ca << endl << endl;
+                    else if (Ra + Ca < i + j) {
+                        Ra = i;
+                        Ca = j;                        
+                    }
                 }
             }
         }
@@ -200,17 +199,17 @@ int main() {
             }
         }
 
-        // cout << endl << Ra << " " << Ca << " " << Rv << " " << Cv << endl;
+        // cout << Ra << " " << Ca << " " << Rv << " " << Cv << endl << endl;
 
         if (Rv == -1 && Cv == -1) {
             break;
         }
 
+        // printMap(map);
+
         Da += N + M;
         map[Ra][Ca] += N + M;
         record[Ra][Ca] = k;
-
-        // cout << Ra << " " << Ca << " " << Rv << " " << Cv << endl << endl;
 
         // printMap(map);
 
