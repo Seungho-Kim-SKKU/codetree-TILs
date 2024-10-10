@@ -176,7 +176,7 @@ int main() {
 
         if (curM == 0) break;
 
-        if (t > m) {
+        if (t <= m) {
             int min = 100;
             int idx = 0;
             for (int i = 1; i <= b; i++) {
