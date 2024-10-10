@@ -176,29 +176,29 @@ int main() {
 
         if (curM == 0) break;
 
-        if (t > m) continue;
-
-        int min = 100;
-        int idx = 0;
-        for (int i = 1; i <= b; i++) {
-            int dis = abs(H[t].dR - B[i].first) + abs(H[t].dC - B[i].second);
-            if (dis < min) {
-                min = dis;
-                H[t].r = B[i].first;
-                H[t].c = B[i].second;
-                idx = i;
-            }
-            else if (dis == min) {
-                if (B[i].second < H[t].c) {
+        if (t > m) {
+            int min = 100;
+            int idx = 0;
+            for (int i = 1; i <= b; i++) {
+                int dis = abs(H[t].dR - B[i].first) + abs(H[t].dC - B[i].second);
+                if (dis < min) {
                     min = dis;
                     H[t].r = B[i].first;
                     H[t].c = B[i].second;
                     idx = i;
                 }
+                else if (dis == min) {
+                    if (B[i].second < H[t].c) {
+                        min = dis;
+                        H[t].r = B[i].first;
+                        H[t].c = B[i].second;
+                        idx = i;
+                    }
+                }
             }
+            map[H[t].r][H[t].c] = -1;
+            B.erase(idx);
         }
-        map[H[t].r][H[t].c] = -1;
-        B.erase(idx);        
 
         t++;
     }
