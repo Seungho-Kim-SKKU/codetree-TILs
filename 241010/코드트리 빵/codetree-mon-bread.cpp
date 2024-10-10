@@ -18,6 +18,7 @@ int curM;
 int map[17][17];
 int traceR[17][17];
 int traceC[17][17];
+int trace[17][17];
 bool visit[17][17];
 int dy[4] = {-1, 0, 0, 1};
 int dx[4] = {0, -1, 1, 0};
@@ -50,6 +51,7 @@ void initVisit() {
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++) {
             visit[i][j] = false;
+            trace[i][j] = 0;
         }
     }
 
@@ -177,28 +179,88 @@ int main() {
         if (curM == 0) break;
 
         if (t <= m) {
-            int min = 100;
-            int idx = 0;
-            for (int i = 1; i <= b; i++) {
-                int dis = abs(H[t].dR - B[i].first) + abs(H[t].dC - B[i].second);
-                if (dis < min) {
-                    min = dis;
-                    H[t].r = B[i].first;
-                    H[t].c = B[i].second;
-                    idx = i;
+            // int min = 100;
+            // int idx = 0;
+            // for (int i = 1; i <= b; i++) {
+            //     int dis = abs(H[t].dR - B[i].first) + abs(H[t].dC - B[i].second);
+            //     if (dis < min) {
+            //         min = dis;
+            //         H[t].r = B[i].first;
+            //         H[t].c = B[i].second;
+            //         idx = i;
+            //     }
+            //     else if (dis == min) {
+            //         if (B[i].second < H[t].c) {
+            //             min = dis;
+            //             H[t].r = B[i].first;
+            //             H[t].c = B[i].second;
+            //             idx = i;
+            //         }
+            //     }
+            // }
+            // map[H[t].r][H[t].c] = -1;
+            // B.erase(idx);
+
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= n; j++) {
+                    visit[i][j] = false;
+                    trace[i][j] = 0;
                 }
-                else if (dis == min) {
-                    if (B[i].second < H[t].c) {
-                        min = dis;
-                        H[t].r = B[i].first;
-                        H[t].c = B[i].second;
-                        idx = i;
+            }
+
+            int curR, curC;
+            queue<pair<int, int>> q;
+
+            q.push(make_pair(H[t].dR, H[t].dC));
+            visit[H[t].dR][H[t].dC] = true;
+
+            while (!q.empty()) {
+                curR = q.front().first;
+                curC = q.front().second;
+                q.pop();
+
+
+                for (int j = 0; j < 4; j++) {
+                    int ny = curR + dy[j];
+                    int nx = curC + dx[j];
+
+                    // if (t == 4) cout << ny << " " << nx << endl;
+
+                    if (map[ny][nx] != -1 && !visit[ny][nx]) {
+                        q.push(make_pair(ny, nx));
+                        visit[ny][nx] = true;
+                        trace[ny][nx] = trace[curR][curC] + 1;
                     }
                 }
             }
-            map[H[t].r][H[t].c] = -1;
-            B.erase(idx);
+
+            int minD = 1000000;
+            int minR = -1;
+            int minC = -1;
+
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= n; j++) {
+                    if (visit[i][j] && map[i][j] == 1 && minD > trace[i][j]) {
+                        minD = trace[i][j];
+                        minR = i;
+                        minC = j;
+                    }
+                }
+            }
+
+            // cout << t << " " << minR << " " << minC << " " << H[t].dR << " " << H[t].dC << endl << endl;
+
+            // printMap(map);
+
+            // printMap(trace);
+
+            H[t].r = minR;
+            H[t].c = minC;
+            map[minR][minC] = -1;
         }
+
+        // cout << H[t].r << " " << H[t].c << " " << H[t].dR << " " << H[t].dC << endl;
+        // printMap(map);
 
         t++;
     }
