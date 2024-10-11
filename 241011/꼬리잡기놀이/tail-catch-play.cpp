@@ -158,6 +158,8 @@ void move() {
             if (flag && j == T[i].num - 2) {
                 map[cy][cx] = 3;
                 mapT[cy][cx] = i;
+                T[i].tR = cy;
+                T[i].tC = cx;
             }
         }
     }
