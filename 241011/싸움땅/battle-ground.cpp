@@ -51,6 +51,15 @@ bool cmp(int a, int b) {
     return a > b;
 }
 
+void initMapH() {
+    for (int i = 0; i < 22; i++) {
+        for (int j = 0; j < 22; j++) {
+            if (i > 0 && i <= n && j > 0 && j <= n) mapH[i][j] = 0;
+            else mapH[i][j] = -1;
+        }
+    }
+}
+
 void changeGun(int i, int r, int c) {
     if (G[r][c].size() == 0) return;
 
@@ -79,7 +88,7 @@ void simulate() {
             ny -= 2;
             H[i].d = 0;
         }
-        else if (ny < 0) {
+        else if (ny < 1) {
             ny += 2;
             H[i].d = 2;
         }
@@ -87,7 +96,7 @@ void simulate() {
             nx -= 2;
             H[i].d = 3;
         }
-        else if (nx < 0) {
+        else if (nx < 1) {
             nx += 2;
             H[i].d = 1;
         }
@@ -124,13 +133,22 @@ void simulate() {
                 }
             }
 
-            int nny = H[loseIdx].r + dy[H[loseIdx].d];
-            int nnx = H[loseIdx].c + dx[H[loseIdx].d];
+            // cout << winIdx << " " << loseIdx << endl;
+
+            // cout << H[winIdx].s << " " << H[loseIdx].s << endl;
+            // cout << H[winIdx].g << " " << H[loseIdx].g << endl;
+
+            G[ny][nx].push_back(H[loseIdx].g);
+            sort(G[ny][nx].begin(), G[ny][nx].end(), cmp);
+            H[loseIdx].g = 0;
+
+            int nny = ny + dy[H[loseIdx].d];
+            int nnx = nx + dx[H[loseIdx].d];
 
             while (mapH[nny][nnx] != 0) {
                 H[loseIdx].d = (H[loseIdx].d + 1) % 4;
-                nny = H[loseIdx].r + dy[H[loseIdx].d];
-                nnx = H[loseIdx].c + dx[H[loseIdx].d];
+                nny = ny + dy[H[loseIdx].d];
+                nnx = nx + dx[H[loseIdx].d];
             }
 
             mapH[nny][nnx] = loseIdx;
@@ -144,10 +162,13 @@ void simulate() {
             H[winIdx].c = nx;
             changeGun(winIdx, ny, nx);
         }
+        // cout << i << endl;
+        // printMap(mapH);
     }
 
     return;
 }
+
 
 int main() {
     cin >> n >> m >> k;
@@ -160,12 +181,16 @@ int main() {
         }
     }
 
+    initMapH();
+
     for (int i = 1; i <= m; i++) {
         int r, c, d, s;
         cin >> r >> c >> d >> s;
         H[i] = {r, c, d, s, 0, 0};
         mapH[r][c] = i;
     }
+
+    // printMap(mapH);
 
     for (int K = 0; K < k; K++) {
         simulate();
