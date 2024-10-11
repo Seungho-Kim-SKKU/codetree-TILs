@@ -133,7 +133,7 @@ void simulate() {
                 }
             }
             
-            H[winIdx].score = abs(curD - oriD);
+            H[winIdx].score += abs(curD - oriD);
 
             // cout << winIdx << " " << loseIdx << endl;
 
