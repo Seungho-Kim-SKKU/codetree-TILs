@@ -72,8 +72,6 @@ void checkTeam() {
             if (map[curR][curC] == 3) {
                 T[i].tR = curR;
                 T[i].tC = curC;
-                mapT[curR][curC] = i;
-                break;
             }
 
             for (int j = 0; j < 4; j++) {
@@ -99,6 +97,8 @@ void move() {
         int cy = T[i].hR;
         int cx = T[i].hC;
         int py, px, ny, nx;
+        bool flag = false;
+        int tmpy, tmpx;
 
         map[cy][cx] = 5;
         for (int j = 0; j < 4; j++) {
@@ -110,6 +110,13 @@ void move() {
                 mapT[ny][nx] = i;
                 T[i].hR = ny;
                 T[i].hC = nx;
+            }
+            else if (map[ny][nx] == 3) {
+                map[ny][nx] = 1;
+                mapT[ny][nx] = i;
+                T[i].hR = ny;
+                T[i].hC = nx;
+                flag = true;
             }
             else if (map[ny][nx] == 2) {
                 py = ny;
@@ -147,6 +154,11 @@ void move() {
                     px = nx;
                 }
             }
+
+            if (flag && j == T[i].num - 2) {
+                map[cy][cx] = 3;
+                mapT[cy][cx] = i;
+            }
         }
     }
 
@@ -178,9 +190,18 @@ int calcScore(int idx, int r, int c) {
             if (map[ny][nx] == 4 || map[ny][nx] == 0) continue;
             if (visit[ny][nx]) continue;
 
-            q.push(make_pair(ny, nx));
-            visit[ny][nx] = true;
-            trace[ny][nx] = trace[curR][curC] + 1;
+            if (map[curR][curC] == 1) {
+                if (map[ny][nx] == 2) {
+                    q.push(make_pair(ny, nx));
+                    visit[ny][nx] = true;
+                    trace[ny][nx] = trace[curR][curC] + 1;
+                }
+            }
+            else {
+                q.push(make_pair(ny, nx));
+                visit[ny][nx] = true;
+                trace[ny][nx] = trace[curR][curC] + 1;
+            }
         }
     }
 
@@ -298,7 +319,7 @@ int main() {
     for (int i = 0; i < k; i++) {
         move();
 
-        // cout << i << endl << endl;
+        // cout << i + 1 << endl << endl;
         // printMap(map);
         // printMap(mapT);
 
