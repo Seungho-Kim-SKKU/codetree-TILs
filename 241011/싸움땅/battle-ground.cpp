@@ -92,7 +92,7 @@ void simulate() {
             ny += 2;
             H[i].d = 2;
         }
-        if (nx > n) {
+        else if (nx > n) {
             nx -= 2;
             H[i].d = 3;
         }
@@ -132,15 +132,19 @@ void simulate() {
                     loseIdx = i;
                 }
             }
+            
+            H[winIdx].score = abs(curD - oriD);
 
             // cout << winIdx << " " << loseIdx << endl;
 
             // cout << H[winIdx].s << " " << H[loseIdx].s << endl;
             // cout << H[winIdx].g << " " << H[loseIdx].g << endl;
 
-            G[ny][nx].push_back(H[loseIdx].g);
-            sort(G[ny][nx].begin(), G[ny][nx].end(), cmp);
-            H[loseIdx].g = 0;
+            if (H[loseIdx].g != 0) {
+                G[ny][nx].push_back(H[loseIdx].g);
+                H[loseIdx].g = 0;
+                sort(G[ny][nx].begin(), G[ny][nx].end(), cmp);
+            }
 
             int nny = ny + dy[H[loseIdx].d];
             int nnx = nx + dx[H[loseIdx].d];
@@ -156,7 +160,6 @@ void simulate() {
             H[loseIdx].c = nnx;
             changeGun(loseIdx, nny, nnx);                
             
-            H[winIdx].score = abs(curD - oriD);
             mapH[ny][nx] = winIdx;
             H[winIdx].r = ny;
             H[winIdx].c = nx;
